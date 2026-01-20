@@ -1,0 +1,25 @@
+%% Set Parameters
+Nvalues = 100:2:300;
+muValues = 0.01:0.02:1.99;
+sigmaValues = 0.01:0.02:1.99;
+%% Simulation
+rng('default') % For reproducibility
+numberInvalidBound =  0;
+for N = Nvalues
+    tic;
+    for mu = muValues
+        for sigma = sigmaValues
+            r = normrnd(mu,sigma,[1, N]);
+            [~,~,bound] = computeBound(mean(r),std(r),N);
+            if bound < normcdf(-mu/sigma)
+                numberInvalidBound = numberInvalidBound + 1;
+            end
+        end
+    end
+    disp(['N=', num2str(N),' completed in ', num2str(toc),'.'])
+end
+%% Print Results
+disp(['Number invalid bounds: ', num2str(numberInvalidBound),...
+    ' , which corresponds to a fraction of ', num2str(...
+    numberInvalidBound/...
+    (length(Nvalues)*length(muValues)*length(sigmaValues)))]);
