@@ -1,4 +1,4 @@
-%% Set Parameters
+de%% Set Parameters
 Nvalues = 100:2:300;
 muValues = 0.01:0.02:1.99;
 sigmaValues = 0.01:0.02:1.99;
